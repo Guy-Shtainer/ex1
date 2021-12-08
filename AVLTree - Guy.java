@@ -61,12 +61,12 @@ public class AVLTree {
 		x.setRight(y);
 		y.setLeft(T2);
 
-		// Update heights
+		// Update height
 		y.setHeight(y.getHeight()-1);
 
 		// Update sizes
-		y.updateSize();
-		x.updateSize();
+		y.setSize(y.getLeft().getSize() + y.getRight().getSize() + 1);
+		x.setSize(x.getLeft().getSize() + x.getRight().getSize() + 1);
 
 		// Return new root
 		return x;
@@ -82,13 +82,12 @@ public class AVLTree {
 		y.setLeft(x);
 		x.setRight(T2);
 
-		//  Update heights
-		x.updateHeight();
-		y.updateHeight();
+		//  Update height
+		x.setHeight(x.getHeight()-1);
 
 		// Update sizes
-		x.updateHeight();
-		y.updateHeight();
+		x.setSize(x.getLeft().getSize() + x.getRight().getSize() + 1);
+		y.setSize(y.getLeft().getSize() + y.getRight().getSize() + 1);
 
 		// Return new root
 		return y;
@@ -119,6 +118,13 @@ public class AVLTree {
 				parent.setLeft(newNode);
 			else parent.setRight(newNode);
 
+			// Maintenance of field "size" for relevant nodes (the route to the root) at O(logn)
+			IAVLNode x = parent;
+			while (x != null) {
+				x.setSize(x.getSize() +1);
+				x = x.getParent();
+			}
+
 			// check whether parent was a leaf or unary node
 			if (parent.getKey() == 1) // it was unary, no rebalance needed
 				return rebalanceStepsCnt;
@@ -134,8 +140,26 @@ public class AVLTree {
 					rightChildRank = parent.getParent().getRight().getHeight(); // The parent's rank or its bother
 					rebalanceStepsCnt += 1; // Counts another rebalace step
 				}
-				if (leftChildRank - rightChildRank == 2 && parent.getLeft().getHeight() - parent.getRight().getHeight() == 1){
-
+				if (leftChildRank - rightChildRank == 2){
+					if (parent.getLeft().getHeight() - parent.getRight().getHeight() == 1){
+						rightRotate(parent.getParent());
+						rebalanceStepsCnt += 1; // Counts another rebalace step
+					}
+					else {
+						leftRotate(parent);
+						rightRotate(parent.getParent().getParent());
+						rebalanceStepsCnt += 2; // Counts two rebalace steps
+					}
+				} else if (leftChildRank - rightChildRank == -2) {
+					if (parent.getLeft().getHeight() - parent.getRight().getHeight() == -1){
+						leftRotate(parent.getParent());
+						rebalanceStepsCnt += 1; // Counts another rebalace step
+					}
+					else {
+						rightRotate(parent);
+						leftRotate(parent.getParent().getParent());
+						rebalanceStepsCnt += 2; // Counts two rebalace steps
+					}
 				}
 			}
 		}
@@ -302,7 +326,7 @@ public class AVLTree {
 
 		public int getHeight(); // Returns the height of the node (-1 for virtual nodes).
 
-		public int setSize();
+		public void setSize(int size);
 
 		public int getSize();
 
