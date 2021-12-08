@@ -1,7 +1,7 @@
 /**
  * AVLTree
  * <p>
- * An implementation of aמ AVL Tree with
+ * An implementation of an AVL Tree with
  * distinct integer keys and info.
  */
 
@@ -122,12 +122,13 @@ public class AVLTree {
 	 * or null if the tree is empty.
 	 */
 	public String min() {
-		if (!empty()){
+		if (empty()) return null;
+		else {
 			IAVLNode x = getRoot();
-			while (x != null && x.getLeft().isRealNode()){
+			while (x != null && x.getLeft().isRealNode()) {
 				x = x.getLeft();
 			} return x.getValue();
-		} else return null;
+		}
 	}
 
 	/**
@@ -137,12 +138,13 @@ public class AVLTree {
 	 * or null if the tree is empty.
 	 */
 	public String max() {
-		if (!empty()){
+		if (empty()) return null;
+		else {
 			IAVLNode x = getRoot();
-			while (x != null && x.getRight().isRealNode()){
+			while (x != null && x.getRight().isRealNode()) {
 				x = x.getRight();
 			} return x.getValue();
-		} else return null;
+		}
 	}
 
 	/**
@@ -190,7 +192,7 @@ public class AVLTree {
 	 * Returns the root AVL node, or null if the tree is empty
 	 */
 	public IAVLNode getRoot() {
-		return null;
+		return this.root;
 	}
 
 	/**
