@@ -9,9 +9,16 @@ public class AVLTree {
 	IAVLNode root;
 	int size;
 
+	// constructor for an existing tree
 	public AVLTree(IAVLNode root,int size){
 		this.root = root;
 		this.size = size;
+	}
+
+	// constructor for a new tree
+	public AVLTree(){
+		this.root = null;
+		this.size = 0;
 	}
 
 	/**
