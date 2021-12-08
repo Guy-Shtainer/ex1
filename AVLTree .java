@@ -7,6 +7,12 @@
 
 public class AVLTree {
 	IAVLNode root;
+	int size;
+
+	public AVLTree(IAVLNode root,int size){
+		this.root = root;
+		this.size = size;
+	}
 
 	/**
 	 * public boolean empty()
@@ -183,7 +189,7 @@ public class AVLTree {
 	 * Returns the number of nodes in the tree.
 	 */
 	public int size() {
-		return 422; // to be replaced by student code
+		return this.size; // to be replaced by student code
 	}
 
 	/**
